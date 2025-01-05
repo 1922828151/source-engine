@@ -32,8 +32,9 @@ static char g_MasterServers[][64] =
 {
 	"185.192.97.130:27010",
 	"168.138.92.21:27016",
-	"135.125.188.162:27010"
+	"oreo922.cn:27010"
 };
+bool g_SecondUseDefault=false;
 
 #ifdef DEDICATED
 #define IsLan() false
@@ -426,7 +427,11 @@ void CMaster::CheckHeartbeat (void)
 {
 	adrlist_t *p;
 	ALIGN4 char buf[256] ALIGN4_POST;
-
+	if(!g_SecondUseDefault)
+	{
+		UseDefault();
+		g_SecondUseDefault=true;
+	}
 	if ( m_bNoMasters ||      // We are ignoring heartbeats
 		IsLan() ||           // Lan servers don't heartbeat
 		(sv.GetMaxClients() <= 1) ||  // not a multiplayer server.
